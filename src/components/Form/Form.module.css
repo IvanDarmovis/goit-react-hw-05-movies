@@ -1,0 +1,19 @@
+.formWrapper {
+  margin: 30px 0;
+}
+
+.form {
+  margin: 0 auto;
+}
+
+.label {
+  display: block;
+  text-align: center;
+  font-size: 24px;
+}
+
+.button {
+  display: block;
+  margin: 0 auto;
+  margin-top: 10px;
+}

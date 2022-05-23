@@ -1,8 +1,15 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useParams, Link, Routes, Route } from 'react-router-dom';
+import {
+  useNavigate,
+  useParams,
+  NavLink,
+  Routes,
+  Route,
+} from 'react-router-dom';
 import Cast from 'components/Cast';
 import Reviews from 'components/Reviews';
 import Api from 'Services/Api';
+import s from './MovieDetailsPage.module.css';
 
 const Ap = new Api();
 
@@ -22,45 +29,69 @@ export default function MovieDetailsPage() {
     getMovieDetail(id);
   }, [id]);
 
-  function pageCounter() {
-    setPage(page - 1);
+  function onLinkClick(ev) {
+    if (!ev.currentTarget.classList.contains('active')) setPage(page - 1);
   }
 
   if (!data) return <h1>Loading...</h1>;
 
-  const { original_title, backdrop_path, vote_average, overview, genres } =
-    data;
+  const {
+    original_title,
+    backdrop_path,
+    poster_path,
+    vote_average,
+    overview,
+    genres,
+  } = data;
 
   return (
-    <div>
+    <div className={s.container}>
       <button
+        className={s.button}
         type="button"
         onClick={() => {
           navigate(page);
         }}
       >
-        Go back
+        ← Go back
       </button>
-      <img
-        src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${backdrop_path}`}
-        alt={original_title}
-        width="480"
-      />
-      <div>
-        <h1>{original_title}</h1>
-        <p>User Score: {vote_average}</p>
-        <p>Overview</p>
-        <p>{overview}</p>
-        <p>Genres</p>
-        <p>{genres.reduce((acc, el) => [...acc, el.name], []).join(', ')}</p>
+      <div className={s.filmWrapper}>
+        <img
+          className={s.poster}
+          src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${
+            backdrop_path ?? poster_path
+          }`}
+          alt={original_title}
+          width="360"
+        />
+        <div className={s.filmInfo}>
+          <h1>{original_title}</h1>
+          <p>User Score: {vote_average}</p>
+          <p className={s.subTitle}>Overview</p>
+          <p>{overview}</p>
+          <p className={s.subTitle}>Genres</p>
+          <p>{genres.reduce((acc, el) => [...acc, el.name], []).join(', ')}</p>
+        </div>
       </div>
-      <div>
-        <Link to={`/movies/${id}/reviews`} onClick={pageCounter}>
+      <div className={s.linkWrapper}>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? ['active', s.activeDetailLink].join(' ') : s.detailLink
+          }
+          to={`/movies/${id}/reviews`}
+          onClick={onLinkClick}
+        >
           Reviews
-        </Link>
-        <Link to={`/movies/${id}/credits`} onClick={pageCounter}>
+        </NavLink>
+        <NavLink
+          className={({ isActive }) =>
+            isActive ? ['active', s.activeDetailLink].join(' ') : s.detailLink
+          }
+          to={`/movies/${id}/credits`}
+          onClick={onLinkClick}
+        >
           Cast
-        </Link>
+        </NavLink>
       </div>
       <Routes>
         <Route path="credits" element={<Cast />} />

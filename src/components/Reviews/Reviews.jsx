@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import Api from 'Services/Api';
+import s from './Reviews.module.css';
 
 const Ap = new Api();
 
@@ -10,7 +11,6 @@ export default function Reviews() {
 
   async function getReview(id) {
     const data = await Ap.getReviews(id);
-    console.log(data.data.results);
     setData(data.data.results);
   }
 
@@ -21,17 +21,15 @@ export default function Reviews() {
   if (!data) return <p>Loading...</p>;
 
   return (
-    <div>
-      <ul>
-        {data.map(el => {
-          return (
-            <li key={el.id}>
-              <h2>{el.author}</h2>
-              <p>{el.content}</p>
-            </li>
-          );
-        })}
-      </ul>
-    </div>
+    <ul className={s.reviews}>
+      {data.map(el => {
+        return (
+          <li key={el.id} className={s.reviewItem}>
+            <h2 className={s.author}>{el.author}</h2>
+            <p className={s.text}>{el.content}</p>
+          </li>
+        );
+      })}
+    </ul>
   );
 }

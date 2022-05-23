@@ -1,0 +1,18 @@
+.gallery {
+  list-style: none;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.galleryItem {
+  flex-basis: 25%;
+  margin-bottom: 30px;
+}
+
+.link {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}

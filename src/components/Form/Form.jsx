@@ -3,6 +3,7 @@ import { createBrowserHistory } from 'history';
 import { useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import Api from 'Services/Api';
+import s from './Form.module.css';
 
 const Ap = new Api();
 
@@ -17,7 +18,6 @@ export default function Form() {
   async function getMovies(query) {
     const arr = await Ap.getMovie(query);
     setFilms(arr.data.results);
-    console.log(arr.data.results);
     setIsFound(true);
   }
 
@@ -28,6 +28,7 @@ export default function Form() {
       pathname: location.pathname,
       search: `?query=${input}`,
     });
+    setInput('');
   }
 
   useEffect(() => {
@@ -38,15 +39,18 @@ export default function Form() {
   }, [params]);
 
   return (
-    <div>
-      <form onSubmit={onFormSubmit}>
-        <label>
+    <div className={s.formWrapper}>
+      <form onSubmit={onFormSubmit} className={s.form}>
+        <label className={s.label}>
           <input
+            className={s.input}
             type="text"
             value={input}
             onChange={ev => setInput(ev.currentTarget.value)}
           />
-          <button type="button">Search</button>
+          <button className={s.button} type="button">
+            Search
+          </button>
         </label>
       </form>
       {isFound && <HomePage films={films} />}
