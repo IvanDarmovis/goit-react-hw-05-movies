@@ -9,15 +9,14 @@ export default function Cast() {
   const [id] = useState(movieId);
   const [data, setData] = useState(() => {});
 
-  async function getCast() {
+  async function getCast(id) {
     const data = await Ap.getCredit(id);
     setData(data.data.cast);
-    console.log(data.data.cast);
   }
 
   useEffect(() => {
     getCast(id);
-  }, [getCast, id]);
+  }, [id]);
 
   if (!data) return <p>Loading...</p>;
 
