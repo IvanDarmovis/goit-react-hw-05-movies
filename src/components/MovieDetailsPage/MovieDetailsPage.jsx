@@ -8,9 +8,10 @@ const Ap = new Api();
 
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
-  const navigate = useNavigate();
   const [id, setId] = useState(movieId);
   const [data, setData] = useState(() => {});
+  const [page, setPage] = useState(-1);
+  const navigate = useNavigate();
 
   async function getMovieDetail(id) {
     const data = await Ap.getMovieDetail(id);
@@ -21,6 +22,10 @@ export default function MovieDetailsPage() {
     getMovieDetail(id);
   }, [id]);
 
+  function pageCounter() {
+    setPage(page - 1);
+  }
+
   if (!data) return <h1>Loading...</h1>;
 
   const { original_title, backdrop_path, vote_average, overview, genres } =
@@ -28,7 +33,12 @@ export default function MovieDetailsPage() {
 
   return (
     <div>
-      <button type="button" onClick={() => navigate('/')}>
+      <button
+        type="button"
+        onClick={() => {
+          navigate(page);
+        }}
+      >
         Go back
       </button>
       <img
@@ -45,8 +55,12 @@ export default function MovieDetailsPage() {
         <p>{genres.reduce((acc, el) => [...acc, el.name], []).join(', ')}</p>
       </div>
       <div>
-        <Link to={`/movies/${id}/reviews`}>Reviews</Link>
-        <Link to={`/movies/${id}/credits`}>Cast</Link>
+        <Link to={`/movies/${id}/reviews`} onClick={pageCounter}>
+          Reviews
+        </Link>
+        <Link to={`/movies/${id}/credits`} onClick={pageCounter}>
+          Cast
+        </Link>
       </div>
       <Routes>
         <Route path="credits" element={<Cast />} />

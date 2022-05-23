@@ -9,7 +9,7 @@ export default function HomePage({ films }) {
           return (
             <li key={el.id}>
               <img
-                src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${el.backdrop_path}`}
+                src={`https://www.themoviedb.org/t/p/w600_and_h900_bestv2${el.poster_path}`}
                 alt=""
                 width="50"
               />

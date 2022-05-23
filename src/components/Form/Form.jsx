@@ -1,30 +1,55 @@
-import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import HomePage from 'components/HomePage';
+import { createBrowserHistory } from 'history';
+import { useEffect, useState } from 'react';
+import { useLocation, Routes, Route, useSearchParams } from 'react-router-dom';
 import Api from 'Services/Api';
 
 const Ap = new Api();
 
 export default function Form() {
   const [input, setInput] = useState('');
-  const navigate = useNavigate();
+  const [isFound, setIsFound] = useState(false);
+  const [films, setFilms] = useState([]);
+  const location = useLocation();
+  const history = createBrowserHistory({ window });
+  const [params] = useSearchParams();
 
-  async function onFormSubmit(ev) {
-    ev.preventDefault();
-    const film = await Ap.getMovie(input);
-    console.log(film);
-    // navigate();
+  async function getMovies(query) {
+    const arr = await Ap.getMovie(query);
+    setFilms(arr.data.results);
+    console.log(arr.data.results);
+    setIsFound(true);
   }
 
+  function onFormSubmit(ev) {
+    ev.preventDefault();
+    getMovies(input);
+    history.push({
+      pathname: location.pathname,
+      search: `?query=${input}`,
+    });
+  }
+
+  useEffect(() => {
+    const query = params.get('query');
+    if (query) {
+      getMovies(query);
+    }
+  }, []);
+
   return (
-    <form onSubmit={onFormSubmit}>
-      <label>
-        <input
-          type="text"
-          value={input}
-          onChange={ev => setInput(ev.currentTarget.value)}
-        />
-        <button type="button">Search</button>
-      </label>
-    </form>
+    <div>
+      <form onSubmit={onFormSubmit}>
+        <label>
+          <input
+            type="text"
+            value={input}
+            onChange={ev => setInput(ev.currentTarget.value)}
+          />
+          <button type="button">Search</button>
+        </label>
+      </form>
+      {isFound && <HomePage films={films} />}
+    </div>
   );
 }

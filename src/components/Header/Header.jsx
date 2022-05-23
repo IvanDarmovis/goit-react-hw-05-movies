@@ -1,5 +1,4 @@
-import Form from 'components/Form';
-import { NavLink, Routes, Route } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import s from './Header.module.css';
 
 export default function Header() {
@@ -19,9 +18,6 @@ export default function Header() {
           Movies
         </NavLink>
       </nav>
-      <Routes>
-        <Route path="/movies" element={<Form />} />
-      </Routes>
     </header>
   );
 }

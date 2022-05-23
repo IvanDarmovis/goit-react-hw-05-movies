@@ -3,9 +3,8 @@ import Header from './Header';
 import HomePage from './HomePage';
 import Api from 'Services/Api';
 import MovieDetailsPage from './MovieDetailsPage';
-// import Cast from './Cast';
 import { useEffect, useState } from 'react';
-// import Reviews from './Reviews';
+import Form from './Form';
 
 const Ap = new Api();
 
@@ -25,7 +24,7 @@ export const App = () => {
     <div>
       <Header />
       <Routes>
-        <Route path="/movies" element={'hallo'} />
+        <Route path="/movies" element={<Form />} />
         <Route path="/movies/:movieId/*" element={<MovieDetailsPage />} />
         <Route path="/*" element={<HomePage films={films} />} />
       </Routes>
