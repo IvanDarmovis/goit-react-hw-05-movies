@@ -35,7 +35,7 @@ export default function Form() {
     if (query) {
       getMovies(query);
     }
-  }, []);
+  }, [params]);
 
   return (
     <div>

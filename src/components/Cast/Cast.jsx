@@ -17,7 +17,7 @@ export default function Cast() {
 
   useEffect(() => {
     getCast(id);
-  }, [id]);
+  }, [getCast, id]);
 
   if (!data) return <p>Loading...</p>;
 
