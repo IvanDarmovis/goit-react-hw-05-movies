@@ -7,10 +7,32 @@ export default class Api {
     this.key = KEY;
   }
 
-  async getPopular() {
-    const arr = await axios.get(
+  getPopular() {
+    return axios.get(
       `https://api.themoviedb.org/3/trending/movie/day?api_key=${this.key}`
     );
-    console.log(arr.data.results);
+  }
+
+  getMovieDetail(id) {
+    return axios.get(
+      `https://api.themoviedb.org/3/movie/${id}?api_key=${this.key}`
+    );
+  }
+
+  getCredit(id) {
+    return axios.get(`
+https://api.themoviedb.org/3/movie/${id}/credits?api_key=${this.key}`);
+  }
+
+  getReviews(id) {
+    return axios.get(
+      `https://api.themoviedb.org/3/movie/${id}/reviews?api_key=${this.key}`
+    );
+  }
+
+  getMovie(query) {
+    return axios.get(
+      `https://api.themoviedb.org/3/search/movie?api_key=${this.key}&query=${query}&include_adult=false`
+    );
   }
 }
