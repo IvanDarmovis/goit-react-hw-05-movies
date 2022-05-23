@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, Suspense, lazy } from 'react';
 import {
   useNavigate,
   useParams,
@@ -6,10 +6,11 @@ import {
   Routes,
   Route,
 } from 'react-router-dom';
-import Cast from 'components/Cast';
-import Reviews from 'components/Reviews';
 import Api from 'Services/Api';
 import s from './MovieDetailsPage.module.css';
+
+const Cast = lazy(() => import('components/Cast'));
+const Reviews = lazy(() => import('components/Reviews'));
 
 const Ap = new Api();
 
@@ -93,10 +94,12 @@ export default function MovieDetailsPage() {
           Cast
         </NavLink>
       </div>
-      <Routes>
-        <Route path="credits" element={<Cast />} />
-        <Route path="reviews" element={<Reviews />} />
-      </Routes>
+      <Suspense fallback={<p>Loading...</p>}>
+        <Routes>
+          <Route path="credits" element={<Cast />} />
+          <Route path="reviews" element={<Reviews />} />
+        </Routes>
+      </Suspense>
     </div>
   );
 }

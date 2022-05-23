@@ -1,9 +1,11 @@
-import HomePage from 'components/HomePage';
+// import HomePage from 'components/HomePage';
 import { createBrowserHistory } from 'history';
-import { useEffect, useState } from 'react';
+import { lazy, Suspense, useEffect, useState } from 'react';
 import { useLocation, useSearchParams } from 'react-router-dom';
 import Api from 'Services/Api';
 import s from './Form.module.css';
+
+const HomePage = lazy(() => import('../HomePage'));
 
 const Ap = new Api();
 
@@ -53,7 +55,9 @@ export default function Form() {
           </button>
         </label>
       </form>
-      {isFound && <HomePage films={films} />}
+      <Suspense fallback={<p>Loading...</p>}>
+        {isFound && <HomePage films={films} />}
+      </Suspense>
     </div>
   );
 }

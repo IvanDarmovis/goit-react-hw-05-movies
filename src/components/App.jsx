@@ -1,10 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
-import Header from './Header';
-import HomePage from './HomePage';
+import { useEffect, useState, lazy, Suspense } from 'react';
 import Api from 'Services/Api';
-import MovieDetailsPage from './MovieDetailsPage';
-import { useEffect, useState } from 'react';
-import Form from './Form';
+
+const Header = lazy(() => import('./Header'));
+const HomePage = lazy(() => import('./HomePage'));
+const MovieDetailsPage = lazy(() => import('./MovieDetailsPage'));
+const Form = lazy(() => import('./Form'));
 
 const Ap = new Api();
 
@@ -22,12 +23,14 @@ export const App = () => {
 
   return (
     <div>
-      <Header />
-      <Routes>
-        <Route path="/movies" element={<Form />} />
-        <Route path="/movies/:movieId/*" element={<MovieDetailsPage />} />
-        <Route path="/*" element={<HomePage films={films} />} />
-      </Routes>
+      <Suspense>
+        <Header />
+        <Routes>
+          <Route path="/movies" element={<Form />} />
+          <Route path="/movies/:movieId/*" element={<MovieDetailsPage />} />
+          <Route path="/*" element={<HomePage films={films} />} />
+        </Routes>
+      </Suspense>
     </div>
   );
 };
