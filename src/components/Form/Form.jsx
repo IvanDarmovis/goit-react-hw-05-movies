@@ -1,7 +1,7 @@
 import HomePage from 'components/HomePage';
 import { createBrowserHistory } from 'history';
 import { useEffect, useState } from 'react';
-import { useLocation, Routes, Route, useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import Api from 'Services/Api';
 
 const Ap = new Api();

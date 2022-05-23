@@ -8,7 +8,7 @@ const Ap = new Api();
 
 export default function MovieDetailsPage() {
   const { movieId } = useParams();
-  const [id, setId] = useState(movieId);
+  const [id] = useState(movieId);
   const [data, setData] = useState(() => {});
   const [page, setPage] = useState(-1);
   const navigate = useNavigate();

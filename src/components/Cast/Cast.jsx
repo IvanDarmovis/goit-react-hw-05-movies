@@ -6,7 +6,7 @@ const Ap = new Api();
 
 export default function Cast() {
   const { movieId } = useParams();
-  const [id, setId] = useState(movieId);
+  const [id] = useState(movieId);
   const [data, setData] = useState(() => {});
 
   async function getCast() {
